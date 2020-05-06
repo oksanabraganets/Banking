@@ -46,7 +46,17 @@ public class JDBCAccountDao implements AccountDao {
     }
 
     public void update(Account entity) {
-
+        final String query =
+                "update account set balance = " +
+                        entity.getBalance() +
+                        " where idaccount = " +
+                        entity.getId();
+        System.out.println(query);
+        try (Statement st = connection.createStatement()) {
+            st.execute(query);
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
     }
 
     public void delete(int id) {
