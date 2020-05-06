@@ -18,6 +18,7 @@ public class TransferService {
             if (source.getAvailableMoney() < transferData.getAmount()) throw new NotEnoughMoneyException();
             source.setBalance(source.getBalance() -  transferData.getAmount());
             dest.setBalance(dest.getBalance() + transferData.getAmount());
+            System.out.println("Source updated : "+ source);
             dao.update(source);
             dao.update(dest);
         }
