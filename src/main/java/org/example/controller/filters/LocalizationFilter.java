@@ -20,10 +20,18 @@ public class LocalizationFilter implements Filter {
 
         final HttpServletRequest req = (HttpServletRequest) request;
         HttpSession session = req.getSession();
-        Locale locale = (Locale) session.getAttribute("locale");
-        if (null == locale){
-            locale = new Locale("uk");
+        String lang = request.getParameter("lang");
+        Locale locale;
+        if (lang != null){
+            if (lang.equals("UKR")) locale = new Locale("uk");
+            else locale = new Locale("en");
             session.setAttribute("locale", locale);
+        }else {
+            locale = (Locale) session.getAttribute("locale");
+            if (null == locale) {
+                locale = new Locale("uk");
+                session.setAttribute("locale", locale);
+            }
         }
         Messages messages = new Messages(locale);
         request.setAttribute("messages", messages);
