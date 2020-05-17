@@ -4,6 +4,7 @@ import java.util.Locale;
 import java.util.ResourceBundle;
 
 public class Messages {
+    private String name;
     private String login;
     private String registration;
     private String loggingIn;
@@ -12,8 +13,13 @@ public class Messages {
     public Messages(Locale locale) {
         System.out.println(locale);
         ResourceBundle rb = ResourceBundle.getBundle("messages",locale);
+        name = rb.getString("name");
         login = rb.getString("login");
         registration = rb.getString("registration");
+    }
+
+    public String getName() {
+        return name;
     }
 
     public String getLogin() {
