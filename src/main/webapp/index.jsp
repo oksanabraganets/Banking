@@ -5,8 +5,15 @@
 <html>
     <body>
         <h2>
-            Hello World!
+            <c:out value="${messages.getName()}"/>
         </h2>
+
+    <form method="get" action="${pageContext.request.contextPath}/index.jsp">
+
+        <input class="button" type="submit" name="lang" value="UKR">
+        <input class="button" type="submit" name="lang" value="ENG">
+
+    </form>
 
     <br/>
         <a href="${pageContext.request.contextPath}/login"><c:out value="${messages.getLogin()}"/></a>
