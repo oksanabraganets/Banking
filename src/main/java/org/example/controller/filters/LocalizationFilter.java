@@ -1,12 +1,14 @@
 package org.example.controller.filters;
 
+import org.example.model.entity.User;
+
 import javax.servlet.*;
 import javax.servlet.http.HttpServletRequest;
-import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 import java.io.IOException;
 import java.util.Locale;
-import java.util.Optional;
+
+import static org.example.controller.command.CommandUtility.getCurrentUserName;
 
 public class LocalizationFilter implements Filter {
     @Override
@@ -35,8 +37,10 @@ public class LocalizationFilter implements Filter {
         }
         Messages messages = new Messages(locale);
         request.setAttribute("messages", messages);
+        request.setAttribute("userName", getCurrentUserName(session));
         filterChain.doFilter(request,response);
     }
+
 
     @Override
     public void destroy() {
