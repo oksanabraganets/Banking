@@ -8,6 +8,8 @@ public class User {
     private String lastName;
     private String email;
     private String password;
+    private String firstNameUkr;
+    private String lastNameUkr;
 
     public enum ROLE {
         ROLE_USER, ROLE_ADMIN, ROLE_UNKNOWN
@@ -17,6 +19,22 @@ public class User {
     List<Account> accounts;
 
     public User() {
+    }
+
+    public String getFirstNameUkr() {
+        return firstNameUkr;
+    }
+
+    public void setFirstNameUkr(String firstNameUkr) {
+        this.firstNameUkr = firstNameUkr;
+    }
+
+    public String getLastNameUkr() {
+        return lastNameUkr;
+    }
+
+    public void setLastNameUkr(String lastNameUkr) {
+        this.lastNameUkr = lastNameUkr;
     }
 
     public int getId() {
