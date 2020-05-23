@@ -23,7 +23,7 @@ public class Servlet extends HttpServlet {
         commands.put("login", new Login(new UserService()));
         commands.put("registration", new Registration(new RegistrationService()));
         commands.put("transfer", new Transfer(new TransferService()));
-        commands.put("userbasis", new UserBasis());
+        commands.put("userbasis", new UserBasis(new UserService()));
         commands.put("exception" , new Exception());
     }
 
