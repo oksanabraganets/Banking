@@ -1,5 +1,7 @@
 package org.example;
 
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
 import org.example.model.dao.DaoFactory;
 import org.example.model.dao.UserDao;
 import org.example.model.entity.CreditAccount;
@@ -10,6 +12,7 @@ import java.sql.Date;
 public class App {
 
     private static final String EMAIL_REGEX= "[A-Za-z_.]{1,20}@[A-Za-z.]{1,20}";
+    private static final Logger logger = LogManager.getLogger(App.class);
 
     public static void main( String[] args )throws Exception {
 //        DaoFactory factory = DaoFactory.getInstance();
@@ -25,7 +28,7 @@ public class App {
                 .debt(10000)
                 .accrued(4500)
                 .build();
-
+        logger.info("Account has built successfully.");
         System.out.println(account);
 
 
