@@ -52,4 +52,8 @@
     <location>/WEB-INF/error.jsp</location>
   </error-page>
 
+  <context-param>
+    <param-name>log4jConfiguration</param-name>
+    <param-value>Log4j2.xml</param-value>
+  </context-param>
 </web-app>
