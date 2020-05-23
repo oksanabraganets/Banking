@@ -4,12 +4,14 @@ import org.example.model.entity.Account;
 import org.example.model.entity.User;
 import org.example.model.service.UserService;
 
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
 import javax.servlet.http.HttpServletRequest;
-import java.util.List;
 
 public class Login implements Command {
 
     UserService userService;
+    private static final Logger logger = LogManager.getLogger(Login.class);
 
     public Login(UserService userService) {
         this.userService = userService;
@@ -24,7 +26,7 @@ public class Login implements Command {
             return "/login.jsp";
         }
         if(CommandUtility.checkUserIsLogged(request, name)){
-            return "/WEB-INF/error.jsp";
+            throw new RuntimeException("User " + name + " is logged in already");
         }
         User user = userService.getUserByEmailPassword(name, CommandUtility.hashPassword(pass));
         if( user == null ) return "/WEB-INF/error.jsp";
@@ -34,6 +36,7 @@ public class Login implements Command {
             return "/WEB-INF/admin/adminbasis.jsp";
         } else if(user.getRole().equals(User.ROLE.ROLE_USER)) {
             CommandUtility.setUserRole(request, User.ROLE.ROLE_USER, user);
+            logger.info("User "+ name+" logged successfully.");
             return "/WEB-INF/user/userbasis.jsp";
         } else {
             CommandUtility.setUserRole(request, User.ROLE.ROLE_UNKNOWN, user);
