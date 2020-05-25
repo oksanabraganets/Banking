@@ -11,11 +11,11 @@ public class RegistrationService {
 
     public void saveUser(User entity){
         System.out.println("In service: " + entity);
-        try (UserDao dao = daoFactory.createUserDao()) {
-            dao.saveUser(entity);
-        }
-        try (AccountDao dao = daoFactory.createAccountDao()){
-            entity.getAccounts().forEach(dao::create);
+        try ( UserDao userDao = daoFactory.createUserDao();
+             AccountDao accountDao = daoFactory.createAccountDao() ) {
+            userDao.saveUser(entity);
+            entity.getAccounts().forEach(accountDao::create);
+            userDao.saveUserAccounts(entity);
         }
     }
 }
