@@ -22,6 +22,14 @@
                         <input type="text" name="last_name"><br/>
                     </div>
                     <div class="form-group">
+                        <label>First name UKR</label>
+                        <input type="text" name="first_name_uk"><br/>
+                    </div>
+                    <div class="form-group">
+                        <label>Last name UKR</label>
+                        <input type="text" name="last_name_uk"><br/>
+                    </div>
+                    <div class="form-group">
                         <label>Email</label>
                         <input type="email" name="email"><br/>
                     </div>
