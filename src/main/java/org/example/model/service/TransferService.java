@@ -6,6 +6,8 @@ import org.example.model.dao.DaoFactory;
 import org.example.model.entity.Account;
 import org.example.model.entity.TransferData;
 
+import java.sql.SQLException;
+
 public class TransferService {
     DaoFactory daoFactory = DaoFactory.getInstance();
 
@@ -13,6 +15,7 @@ public class TransferService {
         System.out.println(transferData);
 
         try (AccountDao dao = daoFactory.createAccountDao()) {
+            dao.getConnection().setAutoCommit(false);
             Account source = dao.findById(transferData.getSourceId());
             Account dest = dao.findById(transferData.getDestId());
             if (source.getAvailableMoney() < transferData.getAmount()) throw new NotEnoughMoneyException();
@@ -21,6 +24,9 @@ public class TransferService {
             System.out.println("Source updated : "+ source);
             dao.update(source);
             dao.update(dest);
+            dao.getConnection().commit();
+        }catch (SQLException e){
+            throw new RuntimeException(e.getMessage());
         }
     }
 }
