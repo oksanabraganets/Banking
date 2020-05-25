@@ -50,50 +50,46 @@ public class JDBCUserDao implements UserDao {
         }
     }
 
-    public boolean saveUser(User entity){
+    public void saveUser(User entity){
         final String query =
-                "insert into user (first_name, last_name, email, password, role) values ('" +
+                "insert into user (first_name, last_name, email, password, role, first_name_ua, last_name_ua)" +
+                " values ('" +
                     entity.getFirstName() + "', '" +
                     entity.getLastName() + "', '" +
                     entity.getEmail() + "', '" +
                     entity.getPassword() + "', '" +
-                    "ROLE_USER')";
-        System.out.println(query);
+                    "ROLE_USER', '" +
+                    entity.getFirstNameUkr() + "', '" +
+                    entity.getLastNameUkr() + "')";
+
+                System.out.println(query);
         try (Statement st = connection.createStatement()) {
             st.execute(query);
-            return true;
         } catch (SQLException e) {
             e.printStackTrace();
-            return false;
         }
     }
 
-    @Override
     public void create(User entity) {
 
     }
 
-    @Override
     public User findById(int id) {
         return null;
     }
 
-    @Override
     public List<User> findAll() {
         return null;
     }
 
-    @Override
     public void update(User entity) {
 
     }
 
-    @Override
     public void delete(int id) {
 
     }
 
-    @Override
     public void close() {
 
     }
