@@ -6,10 +6,7 @@ import org.example.model.dao.mapper.UserMapper;
 import org.example.model.entity.Account;
 import org.example.model.entity.User;
 
-import java.sql.Connection;
-import java.sql.ResultSet;
-import java.sql.SQLException;
-import java.sql.Statement;
+import java.sql.*;
 import java.util.List;
 
 public class JDBCAccountDao implements AccountDao {
@@ -32,7 +29,13 @@ public class JDBCAccountDao implements AccountDao {
                         entity.getAmount() + ")";
         System.out.println(query);
         try (Statement st = connection.createStatement()) {
-            st.execute(query);
+            st.executeUpdate(query, Statement.RETURN_GENERATED_KEYS);
+            ResultSet generatedKeys = st.getGeneratedKeys();
+            if (generatedKeys.next()) {
+                entity.setId(generatedKeys.getInt(1));
+            }else{
+                throw new RuntimeException("Creating account failed, no ID obtained.");
+            }
         } catch (SQLException e) {
             e.printStackTrace();
         }
