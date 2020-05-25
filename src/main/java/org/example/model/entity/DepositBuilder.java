@@ -4,10 +4,10 @@ import java.sql.Date;
 
 public class DepositBuilder {
     private int i;
-    private int b;
-    private Date v;
-    private int da;
-    private int dr;
+    private int b = 0;
+    private Date v = Date.valueOf("2025-1-1");
+    private int da = 100000;
+    private int dr = 5;
 
     public DepositBuilder depositAmount(int da){
         this.da = da;
