@@ -31,6 +31,16 @@ public abstract class Account {
         this.validity = validity;
     }
 
+    public abstract int getRate();
+
+    public abstract int getAccrued();
+
+    public abstract String getType();
+
+    public abstract int getCreditLimit();
+
+    public abstract int getAmount();
+
     public String toString() {
         return "id=" + id +
                 ", balance=" + balance +
