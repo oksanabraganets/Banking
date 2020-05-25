@@ -6,5 +6,5 @@ public interface UserDao extends GenericDao<User> {
 
     public User findByEmailPassword(String email, String pass);
 
-    public boolean saveUser(User entity);
+    public void saveUser(User entity);
 }
