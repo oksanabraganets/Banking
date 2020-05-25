@@ -10,6 +10,10 @@ public class CreditAccount extends Account {
         return creditLimit;
     }
 
+    public int getAmount() {
+        return 0;
+    }
+
     public void setCreditLimit(int creditLimit) {
         this.creditLimit = creditLimit;
     }
@@ -34,8 +38,16 @@ public class CreditAccount extends Account {
         return accrued;
     }
 
+    public String getType() {
+        return "CREDIT";
+    }
+
     public void setAccrued(int accrued) {
         this.accrued = accrued;
+    }
+
+    public int getRate() {
+        return creditRate;
     }
 
     public String toString() {

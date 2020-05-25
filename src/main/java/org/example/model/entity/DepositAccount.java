@@ -21,6 +21,26 @@ public class DepositAccount extends Account {
         this.depositRate = depositRate;
     }
 
+    public int getAccrued() {
+        return 0;
+    }
+
+    public String getType() {
+        return "DEPOSIT";
+    }
+
+    public int getCreditLimit() {
+        return 0;
+    }
+
+    public int getAmount() {
+        return depositAmount;
+    }
+
+    public int getRate() {
+        return depositRate;
+    }
+
     public String toString() {
         return "DepositAccount{" +
                 super.toString() +
