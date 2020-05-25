@@ -21,7 +21,21 @@ public class JDBCAccountDao implements AccountDao {
     }
 
     public void create(Account entity) {
-
+        final String query =
+                "insert into account (balance, validity, rate, accrued, type, credit_limit, amount) values (" +
+                        entity.getBalance() + ", '" +
+                        entity.getValidity() + "', " +
+                        entity.getRate() + ", " +
+                        entity.getAccrued() + ", '" +
+                        entity.getType() + "', " +
+                        entity.getCreditLimit() + ", " +
+                        entity.getAmount() + ")";
+        System.out.println(query);
+        try (Statement st = connection.createStatement()) {
+            st.execute(query);
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
     }
 
     public Account findById(int id) {
@@ -65,5 +79,9 @@ public class JDBCAccountDao implements AccountDao {
 
     public void close() {
 
+    }
+
+    public Connection getConnection() {
+        return connection;
     }
 }
