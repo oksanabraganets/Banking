@@ -92,6 +92,8 @@ public class User {
                 ", lastName='" + lastName + '\'' +
                 ", email='" + email + '\'' +
                 ", password='" + password + '\'' +
+                ", firstNameUkr='" + firstNameUkr + '\'' +
+                ", lastNameUkr='" + lastNameUkr + '\'' +
                 ", role=" + role +
                 '}';
     }
