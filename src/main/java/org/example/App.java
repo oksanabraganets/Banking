@@ -8,6 +8,8 @@ import org.example.model.entity.CreditAccount;
 import org.example.model.entity.CreditBuilder;
 
 import java.sql.Date;
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
 
 public class App {
 
@@ -19,18 +21,13 @@ public class App {
 //        UserDao dao = factory.createUserDao();
 //        System.out.println(dao.findByEmail("oksanaov@gmail"));
 
-        CreditAccount account = new CreditBuilder()
-                .id(12)
-                .balance(-10000)
-                .validity(Date.valueOf("2021-4-26"))
-                .creditLimit(30000)
-                .creditRate(45)
-                .debt(10000)
-                .accrued(4500)
-                .build();
-        logger.info("Account has built successfully.");
-        System.out.println(account);
+        final Pattern p = Pattern.compile("[А-ЯЇІЄҐ][А-Яа-яЇїІіЄєҐґ']{1,20}");
+        Matcher m = p.matcher(
+                "first_name=Anna&last_name=Braganets&first_name_uk=Анна&last_name_uk=Бублик&email=bublik@net");
 
+        while (m.find()) {
+            System.out.println(m.group());
+        }
 
     }
 }
