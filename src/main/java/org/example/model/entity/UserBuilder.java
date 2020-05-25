@@ -1,5 +1,7 @@
 package org.example.model.entity;
 
+import java.util.List;
+
 public class UserBuilder {
     private int i;
     private String f;
@@ -7,6 +9,24 @@ public class UserBuilder {
     private String e;
     private String p;
     private User.ROLE r;
+    private String fu;
+    private String lu;
+    List<Account> a;
+
+    public UserBuilder accounts(List<Account> a){
+        this.a = a;
+        return this;
+    }
+
+    public UserBuilder firstNameUkr(String fu){
+        this.fu = fu;
+        return this;
+    }
+
+    public UserBuilder lastNameUkr(String lu){
+        this.lu = lu;
+        return this;
+    }
 
     public UserBuilder id(int i){
         this.i = i;
@@ -40,9 +60,12 @@ public class UserBuilder {
         user.setPassword(p);
         user.setLastName(l);
         user.setFirstName(f);
+        user.setLastNameUkr(lu);
+        user.setFirstNameUkr(fu);
         user.setEmail(e);
         user.setId(i);
         user.setRole(r);
+        user.setAccounts(a);
         return user;
     }
 }
