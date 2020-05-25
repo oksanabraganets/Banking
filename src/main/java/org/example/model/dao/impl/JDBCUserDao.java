@@ -6,10 +6,7 @@ import org.example.model.dao.mapper.UserMapper;
 import org.example.model.entity.Account;
 import org.example.model.entity.User;
 
-import java.sql.Connection;
-import java.sql.ResultSet;
-import java.sql.SQLException;
-import java.sql.Statement;
+import java.sql.*;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
@@ -64,9 +61,30 @@ public class JDBCUserDao implements UserDao {
 
                 System.out.println(query);
         try (Statement st = connection.createStatement()) {
-            st.execute(query);
+            st.executeUpdate(query, Statement.RETURN_GENERATED_KEYS);
+            ResultSet generatedKeys = st.getGeneratedKeys();
+            if (generatedKeys.next()) {
+                entity.setId(generatedKeys.getInt(1));
+            }else{
+                throw new RuntimeException("Creating user failed, no ID obtained.");
+            }
         } catch (SQLException e) {
-            e.printStackTrace();
+            throw new RuntimeException(e.getMessage());
+        }
+    }
+
+    public void saveUserAccounts(User entity) {
+        for (Account account : entity.getAccounts()) {
+            final String query =
+                    "insert into user_account_link (iduser, idaccount) values (" +
+                            entity.getId() + ", " +
+                            account.getId() + ")";
+            System.out.println(query);
+            try (Statement st = connection.createStatement()) {
+                st.executeUpdate(query);
+            } catch (SQLException e) {
+                e.printStackTrace();
+            }
         }
     }
 
