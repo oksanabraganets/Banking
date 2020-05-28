@@ -1,5 +1,6 @@
 package org.example.model.service;
 
+import org.example.model.entity.Account;
 import org.example.model.entity.CreditAccount;
 import org.example.model.entity.DepositAccount;
 
@@ -7,6 +8,11 @@ public class Calculator {
 
     private static final int HUNDRED_PERCENTS = 100;
     private static final int NUMBER_MONTHS = 12;
+
+    public void calculateInterest(Account account){
+        if (account.getBalance() < 0) calculateCreditInterest((CreditAccount)account);
+        else calculateDepositInterest((DepositAccount)account);
+    }
 
     public void calculateCreditInterest(CreditAccount account){
         int accruedInterest = (-account.getBalance() * account.getCreditRate()) / HUNDRED_PERCENTS / NUMBER_MONTHS;
