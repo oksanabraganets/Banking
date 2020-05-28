@@ -35,8 +35,10 @@ public class JDBCUserDao implements UserDao {
             User user = null;
             while (rs.next()) {
                 user = userMapper.extractFromResultSet(rs);
-                Account account = accountMapper.extractFromResultSet(rs);
-                accounts.add(account);
+                if (user.getRole() == User.ROLE.ROLE_USER) {
+                    Account account = accountMapper.extractFromResultSet(rs);
+                    accounts.add(account);
+                }
             }
             //TODO check user not null
             user.setAccounts(accounts);
