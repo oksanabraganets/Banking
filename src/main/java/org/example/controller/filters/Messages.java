@@ -18,6 +18,8 @@ public class Messages {
     private String id;
     private String balance;
     private String validity;
+    private String adminTitle;
+    private String adminAccrue;
 
     public Messages(Locale locale) {
         System.out.println(locale);
@@ -36,6 +38,16 @@ public class Messages {
         id = rb.getString("account.id");
         balance = rb.getString("account.balance");
         validity= rb.getString("account.validity");
+        adminTitle = rb.getString("admin.title");
+        adminAccrue = rb.getString("admin.accrue");
+    }
+
+    public String getAdminTitle() {
+        return adminTitle;
+    }
+
+    public String getAdminAccrue() {
+        return adminAccrue;
     }
 
     public String getId() {
