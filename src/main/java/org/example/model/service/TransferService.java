@@ -10,22 +10,28 @@ import java.sql.SQLException;
 
 public class TransferService {
     DaoFactory daoFactory = DaoFactory.getInstance();
+    AccountDao dao = daoFactory.createAccountDao();
+
+    public void addAmount(int accountId, int amount){
+        Account account = dao.findById(accountId);
+        System.out.println(account);
+        if (account.getAvailableMoney() + amount < 0 )
+            throw new NotEnoughMoneyException();
+        account.setBalance(account.getBalance() + amount);
+        dao.update(account);
+        System.out.println(account);
+    }
 
     public void transferMoney(TransferData transferData){
         System.out.println(transferData);
 
-        try (AccountDao dao = daoFactory.createAccountDao()) {
+        try{
             dao.getConnection().setAutoCommit(false);
-            Account source = dao.findById(transferData.getSourceId());
-            Account dest = dao.findById(transferData.getDestId());
-            if (source.getAvailableMoney() < transferData.getAmount()) throw new NotEnoughMoneyException();
-            source.setBalance(source.getBalance() -  transferData.getAmount());
-            dest.setBalance(dest.getBalance() + transferData.getAmount());
-            System.out.println("Source updated : "+ source);
-            dao.update(source);
-            dao.update(dest);
+            addAmount(transferData.getSourceId(), - transferData.getAmount());
+            addAmount(transferData.getDestId(), transferData.getAmount());
             dao.getConnection().commit();
-        }catch (SQLException e){
+        }catch (Exception e){
+            try { dao.getConnection().rollback(); } catch (Exception ignored){}
             throw new RuntimeException(e.getMessage());
         }
     }
