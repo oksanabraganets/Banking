@@ -19,7 +19,7 @@ import java.util.regex.Pattern;
 public class Registration implements Command {
     private static final String NAME_REGEX = "[A-Z][a-z]{1,20}";
     private static final String EMAIL_REGEX =  "[A-Za-z_.]{1,20}@[A-Za-z.]{1,20}";
-    private static final String NAME_UKR = "[А-ЯЇІЄҐ][А-Яа-яЇїІіЄєҐґ']{1,20}";
+    private static final String NAME_UKR = "[А-ЯЇІЄҐ][а-яїієґ']{1,20}";
     RegistrationService registrationService;
     private static final Logger logger = LogManager.getLogger(Registration.class);
 
