@@ -24,6 +24,8 @@ public class AuthFilter implements Filter {
             { "/api/registration.jsp", User.ROLE.ROLE_UNKNOWN },
             { "/api/login.jsp", User.ROLE.ROLE_UNKNOWN },
             { "/api/userbasis", User.ROLE.ROLE_USER },
+            { "/api/adminbasis", User.ROLE.ROLE_ADMIN },
+            { "/api/accrue", User.ROLE.ROLE_ADMIN },
             { "/api/transfer", User.ROLE.ROLE_USER },
             { "/api/admin/adminbasis.jsp", User.ROLE.ROLE_ADMIN },
     }).collect(Collectors.toMap(data -> (String) data[0], data -> (User.ROLE) data[1]));
