@@ -7,6 +7,7 @@ import org.example.model.entity.Account;
 import org.example.model.entity.User;
 
 import java.sql.*;
+import java.util.ArrayList;
 import java.util.List;
 
 public class JDBCAccountDao implements AccountDao {
@@ -59,13 +60,29 @@ public class JDBCAccountDao implements AccountDao {
     }
 
     public List<Account> findAll() {
-        return null;
+        final String query = "select * from account";
+        List<Account> accounts = new ArrayList<>();
+        try (Statement st = connection.createStatement()) {
+            ResultSet rs = st.executeQuery(query);
+            AccountMapper accountMapper = new AccountMapper();
+
+            Account account = null;
+            while (rs.next()) {
+                account = accountMapper.extractFromResultSet(rs);
+                accounts.add(account);
+            }
+        } catch (SQLException e) {
+            e.printStackTrace();
+            return null;
+        }
+        return accounts;
     }
 
     public void update(Account entity) {
         final String query =
-                "update account set balance = " +
-                        entity.getBalance() +
+                "update account set balance = " + entity.getBalance() +
+                        ", debt = " + entity.getDebt() +
+                        ", accrued = " + entity.getAccrued() +
                         " where idaccount = " +
                         entity.getId();
         System.out.println(query);
