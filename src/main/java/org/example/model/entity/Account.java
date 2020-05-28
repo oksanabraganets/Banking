@@ -41,6 +41,8 @@ public abstract class Account {
 
     public abstract int getAmount();
 
+    public abstract int getDebt();
+
     public String toString() {
         return "id=" + id +
                 ", balance=" + balance +
