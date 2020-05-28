@@ -9,4 +9,6 @@ public interface AccountDao extends GenericDao<Account> {
 
     public Connection getConnection();
 
+    public List<Account> findAll();
+
 }
