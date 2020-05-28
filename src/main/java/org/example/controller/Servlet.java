@@ -2,6 +2,7 @@ package org.example.controller;
 
 import org.example.controller.command.*;
 import org.example.controller.command.Exception;
+import org.example.model.service.AdminService;
 import org.example.model.service.RegistrationService;
 import org.example.model.service.TransferService;
 import org.example.model.service.UserService;
@@ -25,6 +26,8 @@ public class Servlet extends HttpServlet {
         commands.put("transfer", new Transfer(new TransferService()));
         commands.put("userbasis", new UserBasis(new UserService()));
         commands.put("exception" , new Exception());
+        commands.put("adminbasis" , new AdminBasis());
+        commands.put("accrue", new AdminAccrue(new AdminService()));
     }
 
     public void doGet(HttpServletRequest request,
