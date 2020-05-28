@@ -41,6 +41,10 @@ public class DepositAccount extends Account {
         return depositRate;
     }
 
+    public int getDebt(){
+        return 0;
+    }
+
     public String toString() {
         return "DepositAccount{" +
                 super.toString() +
