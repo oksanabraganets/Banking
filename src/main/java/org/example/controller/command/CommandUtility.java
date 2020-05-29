@@ -50,10 +50,10 @@ public class CommandUtility {
         HashSet<String> loggedUsers = (HashSet<String>) session.getServletContext()
                 .getAttribute("loggedUsers");
         if (loggedUsers != null) {
-            String userName = (String) session
-                    .getAttribute("userName");
-            loggedUsers.remove(userName);
-            session.setAttribute("loggedUsers", loggedUsers);
+            User user = (User) session
+                    .getAttribute("user");
+            loggedUsers.remove(user.getEmail());
+            session.getServletContext().setAttribute("loggedUsers", loggedUsers);
         }
     }
 
