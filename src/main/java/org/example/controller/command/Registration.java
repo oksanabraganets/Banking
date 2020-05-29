@@ -17,9 +17,7 @@ import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
 public class Registration implements Command {
-    private static final String NAME_REGEX = "[A-Z][a-z]{1,20}";
-    private static final String EMAIL_REGEX =  "[A-Za-z_.]{1,20}@[A-Za-z.]{1,20}";
-    private static final String NAME_UKR = "[А-ЯЇІЄҐ][а-яїієґ']{1,20}";
+
     RegistrationService registrationService;
     private static final Logger logger = LogManager.getLogger(Registration.class);
 
@@ -40,11 +38,11 @@ public class Registration implements Command {
         String first_name_uk = names.get(0);
         String last_name_uk = names.get(1);
         logger.info(first_name_uk + " " + last_name_uk);
-        boolean correctInput = first_name.matches(NAME_REGEX) &&
-                (last_name != null) && last_name.matches(NAME_REGEX) &&
-                (first_name_uk != null) && first_name_uk.matches(NAME_UKR) &&
-                (last_name_uk != null) && last_name_uk.matches(NAME_UKR) &&
-                (email != null) && email.matches(EMAIL_REGEX) &&
+        boolean correctInput = first_name.matches(GlobalConstants.NAME_REGEX) &&
+                (last_name != null) && last_name.matches(GlobalConstants.NAME_REGEX) &&
+                (first_name_uk != null) && first_name_uk.matches(GlobalConstants.NAME_UKR) &&
+                (last_name_uk != null) && last_name_uk.matches(GlobalConstants.NAME_UKR) &&
+                (email != null) && email.matches(GlobalConstants.EMAIL_REGEX) &&
                 (pass != null);
         if ( !correctInput ) {
             session.setAttribute("message", "Incorrect input");
@@ -76,7 +74,7 @@ public class Registration implements Command {
         }
         logger.info(query);
         List<String> names = new ArrayList<>();
-        final Pattern p = Pattern.compile("[А-ЯЇІЄҐ][А-Яа-яЇїІіЄєҐґ']{1,20}");
+        final Pattern p = Pattern.compile(GlobalConstants.NAME_UKR);
         Matcher m = p.matcher(query);
         while (m.find()) {
             names.add(m.group());
