@@ -40,12 +40,11 @@ public class JDBCUserDao implements UserDao {
                     accounts.add(account);
                 }
             }
-            //TODO check user not null
+            if (user == null) throw new RuntimeException("Incorrect credentials");
             user.setAccounts(accounts);
             return user;
         } catch (SQLException e) {
-            e.printStackTrace();
-            return null;
+            throw new RuntimeException("Cannot find registered user");
         }
     }
 
