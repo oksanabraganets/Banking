@@ -10,6 +10,6 @@ public class SessionListener implements HttpSessionListener {
     public void sessionCreated(HttpSessionEvent httpSessionEvent) {}
 
     public void sessionDestroyed(HttpSessionEvent httpSessionEvent) {
-        CommandUtility.removeLoggedUser(httpSessionEvent.getSession());
+        CommandUtility.removeLoggedUser(httpSessionEvent.getSession(), null);
     }
 }
