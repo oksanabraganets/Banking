@@ -29,17 +29,15 @@ public class Login implements Command {
             throw new RuntimeException("User " + name + " is logged in already");
         }
         User user = userService.getUserByEmailPassword(name, CommandUtility.hashPassword(pass));
-        if( user == null ) return "/WEB-INF/error.jsp";
-        User.ROLE role = user.getRole();
+        CommandUtility.setUserRole(request, user);
         if (user.getRole().equals(User.ROLE.ROLE_ADMIN)){
-            CommandUtility.setUserRole(request, User.ROLE.ROLE_ADMIN, user);
             return "/WEB-INF/admin/adminbasis.jsp";
         } else if(user.getRole().equals(User.ROLE.ROLE_USER)) {
-            CommandUtility.setUserRole(request, User.ROLE.ROLE_USER, user);
             logger.info("User "+ name+" logged successfully.");
             return "/WEB-INF/user/userbasis.jsp";
         } else {
-            CommandUtility.setUserRole(request, User.ROLE.ROLE_UNKNOWN, user);
+            user.setRole(User.ROLE.ROLE_UNKNOWN);
+            CommandUtility.setUserRole(request, user);
             return "/login.jsp";
         }
     }
