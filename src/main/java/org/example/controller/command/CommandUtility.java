@@ -8,16 +8,27 @@ import javax.servlet.http.HttpSession;
 import java.security.MessageDigest;
 import java.util.HashSet;
 import java.util.Locale;
+import java.util.Optional;
 
 public class CommandUtility {
 
-    static void setUserRole(HttpServletRequest request,
-                            User.ROLE role, User user) {
+    static void setUserRole(HttpServletRequest request, User user) {
 
         HttpSession session = request.getSession();
         session.setAttribute("user", user);
-        session.setAttribute("role", role);
+        if (user == null){
+            session.setAttribute("role", User.ROLE.ROLE_UNKNOWN);
+            return;
+        }
+        else session.setAttribute("role", user.getRole());
         request.setAttribute("userName", getCurrentUserName(session));
+        HashSet<String> loggedUsers = (HashSet<String>) session.getServletContext()
+                .getAttribute("loggedUsers");
+        if(loggedUsers == null){
+            loggedUsers = new HashSet<>();
+        }
+        loggedUsers.add(user.getEmail());
+        session.getServletContext().setAttribute("loggedUsers", loggedUsers);
     }
 
     public static String getCurrentUserName(HttpSession session){
@@ -35,26 +46,22 @@ public class CommandUtility {
         HashSet<String> loggedUsers = (HashSet<String>) request.getSession().getServletContext()
                 .getAttribute("loggedUsers");
         if(loggedUsers == null){
-            loggedUsers = new HashSet<>();
+            return false;
         }
         else if(loggedUsers.stream().anyMatch(userName::equals)){
             return true;
         }
-        loggedUsers.add(userName);
-        request.getSession().getServletContext()
-                .setAttribute("loggedUsers", loggedUsers);
         return false;
     }
 
-    public static void removeLoggedUser(HttpSession session){
+    public static void removeLoggedUser(HttpSession session, String name){
         HashSet<String> loggedUsers = (HashSet<String>) session.getServletContext()
                 .getAttribute("loggedUsers");
-        if (loggedUsers != null) {
-            User user = (User) session
-                    .getAttribute("user");
-            loggedUsers.remove(user.getEmail());
-            session.getServletContext().setAttribute("loggedUsers", loggedUsers);
-        }
+        if (loggedUsers == null) return;
+        User user = (User) session.getAttribute("user");
+        Optional<String> login = Optional.ofNullable(name);
+        loggedUsers.remove(login.orElse(user.getEmail()));
+        session.getServletContext().setAttribute("loggedUsers", loggedUsers);
     }
 
     public static String hashPassword(String password){
