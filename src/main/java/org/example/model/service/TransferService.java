@@ -3,10 +3,10 @@ package org.example.model.service;
 import org.example.controller.exception.NotEnoughMoneyException;
 import org.example.model.dao.AccountDao;
 import org.example.model.dao.DaoFactory;
+import org.example.model.dao.TransferDao;
 import org.example.model.entity.Account;
 import org.example.model.entity.TransferData;
 
-import java.sql.SQLException;
 
 public class TransferService {
     DaoFactory daoFactory = DaoFactory.getInstance();
@@ -24,7 +24,7 @@ public class TransferService {
 
     public void transferMoney(TransferData transferData){
         System.out.println(transferData);
-
+        TransferDao transferDao = daoFactory.createTransferDao();
         try{
             dao.getConnection().setAutoCommit(false);
             addAmount(transferData.getSourceId(), - transferData.getAmount());
@@ -32,6 +32,11 @@ public class TransferService {
             dao.getConnection().commit();
         }catch (Exception e){
             try { dao.getConnection().rollback(); } catch (Exception ignored){}
+            throw new RuntimeException(e.getMessage());
+        }
+        try {
+            transferDao.create(transferData);
+        }catch (Exception e){
             throw new RuntimeException(e.getMessage());
         }
     }
