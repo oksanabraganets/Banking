@@ -2,6 +2,7 @@ package org.example.model.dao.impl;
 
 import org.example.model.dao.AccountDao;
 import org.example.model.dao.DaoFactory;
+import org.example.model.dao.TransferDao;
 import org.example.model.dao.UserDao;
 
 import javax.sql.DataSource;
@@ -18,6 +19,10 @@ public class JDBCDaoFactory extends DaoFactory {
 
     public AccountDao createAccountDao() {
         return new JDBCAccountDao(getConnection());
+    }
+
+    public TransferDao createTransferDao() {
+        return new JDBCTransferDao(getConnection());
     }
 
     private Connection getConnection(){

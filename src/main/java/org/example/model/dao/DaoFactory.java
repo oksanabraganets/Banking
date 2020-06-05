@@ -20,4 +20,6 @@ public abstract class DaoFactory {
         }
         return daoFactory;
     }
+
+    public abstract TransferDao createTransferDao();
 }
