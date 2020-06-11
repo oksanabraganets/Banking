@@ -2,7 +2,6 @@ package org.example.controller.command;
 
 import org.example.model.entity.User;
 
-import javax.servlet.ServletContext;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpSession;
 import java.security.MessageDigest;
@@ -16,11 +15,7 @@ public class CommandUtility {
 
         HttpSession session = request.getSession();
         session.setAttribute("user", user);
-        if (user == null){
-            session.setAttribute("role", User.ROLE.ROLE_UNKNOWN);
-            return;
-        }
-        else session.setAttribute("role", user.getRole());
+        session.setAttribute("role", user.getRole());
         request.setAttribute("userName", getCurrentUserName(session));
         HashSet<String> loggedUsers = (HashSet<String>) session.getServletContext()
                 .getAttribute("loggedUsers");
@@ -34,7 +29,6 @@ public class CommandUtility {
     public static String getCurrentUserName(HttpSession session){
         Locale locale = (Locale) session.getAttribute("locale");
         User user = (User) session.getAttribute("user");
-
         if (user == null) return null;
         if (locale.toString().equals("uk")){
             return user.getFirstNameUkr() + " " + user.getLastNameUkr();
@@ -62,7 +56,9 @@ public class CommandUtility {
         Optional<String> login = Optional.ofNullable(name);
         loggedUsers.remove(login.orElse(user.getEmail()));
         session.getServletContext().setAttribute("loggedUsers", loggedUsers);
-    }
+        session.setAttribute("user", user);
+        session.setAttribute("role", User.ROLE.ROLE_UNKNOWN);
+        }
 
     public static String hashPassword(String password){
 
@@ -77,11 +73,11 @@ public class CommandUtility {
             byte[] encodedPassword = md.digest();
 
             StringBuilder sb = new StringBuilder();
-            for (int i = 0; i < encodedPassword.length; i++) {
-                if ((encodedPassword[i] & 0xff) < 0x10) {
+            for (byte b : encodedPassword) {
+                if ((b & 0xff) < 0x10) {
                     sb.append("0");
                 }
-                sb.append(Long.toString(encodedPassword[i] & 0xff, 16));
+                sb.append(Long.toString(b & 0xff, 16));
             }
            return sb.toString();
         } catch (Throwable e) {
