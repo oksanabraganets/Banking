@@ -1,6 +1,5 @@
 package org.example.controller.command;
 
-import org.example.model.entity.Account;
 import org.example.model.entity.User;
 import org.example.model.service.UserService;
 
@@ -17,11 +16,9 @@ public class Login implements Command {
         this.userService = userService;
     }
 
-
     public String execute(HttpServletRequest request) {
         String name = request.getParameter("name");
         String pass = request.getParameter("pass");
-        System.out.println(name + " " + pass);
         if( name == null || name.equals("") || pass == null || pass.equals("")  ){
             return "/login.jsp";
         }
