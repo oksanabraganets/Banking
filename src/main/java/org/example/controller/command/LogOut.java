@@ -10,7 +10,6 @@ public class LogOut implements Command {
 
     public String execute(HttpServletRequest request) {
         CommandUtility.removeLoggedUser(request.getSession(), null);
-        CommandUtility.setUserRole(request, null);
         return "redirect:/index.jsp";
     }
 }
