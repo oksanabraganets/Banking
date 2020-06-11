@@ -35,13 +35,10 @@ public class Registration implements Command {
 
         if (first_name == null) return "/registration.jsp";
         List<String> names = getCyrillicNames(request);
-        String first_name_uk = names.get(0);
-        String last_name_uk = names.get(1);
-        logger.info(first_name_uk + " " + last_name_uk);
+        logger.info(first_name + " " + last_name);
         boolean correctInput = first_name.matches(GlobalConstants.NAME_REGEX) &&
                 (last_name != null) && last_name.matches(GlobalConstants.NAME_REGEX) &&
-                (first_name_uk != null) && first_name_uk.matches(GlobalConstants.NAME_UKR) &&
-                (last_name_uk != null) && last_name_uk.matches(GlobalConstants.NAME_UKR) &&
+                (names.size() == 2) &&
                 (email != null) && email.matches(GlobalConstants.EMAIL_REGEX) &&
                 (pass != null);
         if ( !correctInput ) {
@@ -53,8 +50,8 @@ public class Registration implements Command {
         User user = new UserBuilder()
                 .firstName(first_name)
                 .lastName(last_name)
-                .firstNameUkr(first_name_uk)
-                .lastNameUkr(last_name_uk)
+                .firstNameUkr(names.get(0))
+                .lastNameUkr(names.get(1))
                 .email(email)
                 .password(CommandUtility.hashPassword(pass))
                 .role(User.ROLE.ROLE_USER)
